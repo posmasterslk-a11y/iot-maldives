@@ -50,42 +50,38 @@ onMounted(async () => {
 
     <template #body>
       <!-- Stats Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
         <!-- Active Devices -->
-        <UDashboardCard
-          title="Active Devices"
-          description="Number of flow meters online"
-          icon="i-heroicons-cpu-chip"
-        >
-          <div v-if="isLoading" class="h-8 w-16 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-2"></div>
-          <div v-else class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
-            {{ dashboardStore.stats.activeDevices || 0 }}
+        <UCard class="shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+              <UIcon name="i-lucide-activity" class="w-8 h-8 text-green-600 dark:text-green-400" />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Active Flow Meters</p>
+              <div v-if="isLoading" class="h-8 w-16 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-1"></div>
+              <div v-else class="text-3xl font-bold text-gray-900 dark:text-white mt-1">
+                {{ dashboardStore.stats.activeDevices || 0 }}
+              </div>
+            </div>
           </div>
-        </UDashboardCard>
+        </UCard>
 
         <!-- Cumulative Flow -->
-        <UDashboardCard
-          title="Cumulative Flow (Totalizer)"
-          description="Total liters dispensed across all devices"
-          icon="i-heroicons-beaker"
-        >
-          <div v-if="isLoading" class="h-8 w-32 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-2"></div>
-          <div v-else class="text-3xl font-bold text-gray-900 dark:text-white mt-2 text-yellow-500">
-            {{ dashboardStore.stats.totalFuelDispensed || 0 }} L
+        <UCard class="shadow-sm border-t-4 border-t-yellow-500">
+          <div class="flex items-center gap-4">
+            <div class="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+              <UIcon name="i-lucide-droplets" class="w-8 h-8 text-yellow-600 dark:text-yellow-400" />
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Fuel Dispensed</p>
+              <div v-if="isLoading" class="h-8 w-32 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-1"></div>
+              <div v-else class="text-3xl font-bold text-yellow-600 dark:text-yellow-500 mt-1">
+                {{ dashboardStore.stats.totalFuelDispensed || 0 }} <span class="text-xl font-semibold">L</span>
+              </div>
+            </div>
           </div>
-        </UDashboardCard>
-
-        <!-- Last Update -->
-        <UDashboardCard
-          title="Last Update"
-          description="Latest data sync from Yunyi API"
-          icon="i-heroicons-clock"
-        >
-          <div v-if="isLoading" class="h-8 w-40 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-2"></div>
-          <div v-else class="text-xl font-bold text-gray-900 dark:text-white mt-2">
-            {{ lastUpdateTime || 'N/A' }}
-          </div>
-        </UDashboardCard>
+        </UCard>
       </div>
 
       <!-- Devices Table -->
