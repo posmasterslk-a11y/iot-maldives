@@ -20,6 +20,10 @@ const items = computed<DropdownMenuItem[][]>(() => ([[{
   label: user.value?.email || 'Admin User',
   icon: 'i-lucide-user'
 }], [{
+  label: 'Change Password',
+  icon: 'i-lucide-key',
+  to: '/settings'
+}], [{
   label: 'Appearance',
   icon: 'i-lucide-sun-moon',
   children: [{
