@@ -60,25 +60,27 @@ const updatePassword = async () => {
           icon="i-lucide-shield"
         >
           <form @submit.prevent="updatePassword" class="space-y-6">
-            <UFormGroup label="New Password" required>
+            <UFormField label="New Password" required class="w-full">
               <UInput 
                 v-model="newPassword" 
                 type="password" 
                 placeholder="••••••••" 
                 icon="i-lucide-key" 
-                size="md" 
+                size="md"
+                class="w-full" 
               />
-            </UFormGroup>
+            </UFormField>
             
-            <UFormGroup label="Confirm New Password" required>
+            <UFormField label="Confirm New Password" required class="w-full">
               <UInput 
                 v-model="confirmPassword" 
                 type="password" 
                 placeholder="••••••••" 
                 icon="i-lucide-lock" 
-                size="md" 
+                size="md"
+                class="w-full" 
               />
-            </UFormGroup>
+            </UFormField>
 
             <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t border-gray-200 dark:border-gray-800">
               <UButton type="submit" color="primary" :loading="loading" size="md">

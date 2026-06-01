@@ -77,13 +77,13 @@ const createUser = async () => {
 
             <form @submit.prevent="createUser" class="divide-y divide-gray-200 dark:divide-gray-800">
               <div class="p-4 sm:p-6 space-y-6">
-                <UFormGroup label="Email Address" required>
-                  <UInput v-model="email" type="email" placeholder="admin@example.com" size="lg" icon="i-lucide-mail" />
-                </UFormGroup>
+                <UFormField label="Email Address" required class="w-full">
+                  <UInput v-model="email" type="email" placeholder="admin@example.com" size="lg" icon="i-lucide-mail" class="w-full" />
+                </UFormField>
                 
-                <UFormGroup label="Password" required>
-                  <UInput v-model="password" type="password" placeholder="••••••••" size="lg" icon="i-lucide-lock" />
-                </UFormGroup>
+                <UFormField label="Password" required class="w-full">
+                  <UInput v-model="password" type="password" placeholder="••••••••" size="lg" icon="i-lucide-lock" class="w-full" />
+                </UFormField>
 
                 <UAlert v-if="successMsg" color="green" variant="soft" icon="i-lucide-check-circle-2" :title="successMsg" />
                 <UAlert v-if="errorMsg" color="red" variant="soft" icon="i-lucide-alert-circle" :title="errorMsg" />

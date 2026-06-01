@@ -14,7 +14,7 @@
       </div>
 
       <form class="space-y-5" @submit.prevent="handleLogin">
-        <UFormGroup label="Email Address">
+        <UFormField label="Email Address" class="w-full">
           <UInput 
             v-model="email" 
             type="email" 
@@ -23,11 +23,12 @@
             placeholder="admin@example.com" 
             icon="i-lucide-mail"
             size="lg"
+            class="w-full"
             :ui="{ icon: { leading: { pointer: '' } } }"
           />
-        </UFormGroup>
+        </UFormField>
         
-        <UFormGroup label="Password">
+        <UFormField label="Password" class="w-full">
           <UInput 
             v-model="password" 
             type="password" 
@@ -36,8 +37,9 @@
             placeholder="••••••••" 
             icon="i-lucide-lock"
             size="lg"
+            class="w-full"
           />
-        </UFormGroup>
+        </UFormField>
 
         <UButton 
           type="submit" 
