@@ -1,65 +1,65 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-      <div>
-        <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
-          <UIcon name="i-heroicons-lock-closed" class="h-6 w-6 text-blue-600 dark:text-blue-300" />
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 p-4">
+    <UCard class="w-full max-w-md shadow-xl" :ui="{ body: { padding: 'p-6 sm:p-10' } }">
+      <div class="text-center mb-8">
+        <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-2xl bg-primary-100 dark:bg-primary-900/30 mb-6 shadow-inner">
+          <UIcon name="i-lucide-droplet" class="h-8 w-8 text-primary-600 dark:text-primary-400" />
         </div>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-          Sign in to your account
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+          Welcome Back
         </h2>
-        <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-          Trans Maldivian Airways - IOT System Dashboard
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          Trans Maldivian Airways <br/> IOT System Dashboard
         </p>
       </div>
-      <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
-        <div class="rounded-md shadow-sm -space-y-px">
-          <div>
-            <label for="email-address" class="sr-only">Email address</label>
-            <UInput 
-              id="email-address" 
-              v-model="email" 
-              type="email" 
-              autocomplete="email" 
-              required 
-              placeholder="Email address" 
-              icon="i-heroicons-envelope"
-              size="lg"
-            />
-          </div>
-          <div class="mt-4">
-            <label for="password" class="sr-only">Password</label>
-            <UInput 
-              id="password" 
-              v-model="password" 
-              type="password" 
-              autocomplete="current-password" 
-              required 
-              placeholder="Password" 
-              icon="i-heroicons-key"
-              size="lg"
-            />
-          </div>
-        </div>
 
-        <div>
-          <UButton 
-            type="submit" 
-            color="blue" 
-            variant="solid" 
-            block 
-            size="lg" 
-            :loading="loading"
-          >
-            Sign in
-          </UButton>
-        </div>
+      <form class="space-y-5" @submit.prevent="handleLogin">
+        <UFormGroup label="Email Address">
+          <UInput 
+            v-model="email" 
+            type="email" 
+            autocomplete="email" 
+            required 
+            placeholder="admin@example.com" 
+            icon="i-lucide-mail"
+            size="lg"
+            :ui="{ icon: { leading: { pointer: '' } } }"
+          />
+        </UFormGroup>
         
-        <div v-if="errorMsg" class="text-sm text-red-500 text-center mt-2">
-          {{ errorMsg }}
-        </div>
+        <UFormGroup label="Password">
+          <UInput 
+            v-model="password" 
+            type="password" 
+            autocomplete="current-password" 
+            required 
+            placeholder="••••••••" 
+            icon="i-lucide-lock"
+            size="lg"
+          />
+        </UFormGroup>
+
+        <UButton 
+          type="submit" 
+          color="primary" 
+          block 
+          size="lg" 
+          class="mt-8"
+          :loading="loading"
+        >
+          Sign In
+        </UButton>
+        
+        <UAlert 
+          v-if="errorMsg" 
+          color="red" 
+          variant="soft" 
+          icon="i-lucide-alert-circle" 
+          :title="errorMsg" 
+          class="mt-6" 
+        />
       </form>
-    </div>
+    </UCard>
   </div>
 </template>
 
