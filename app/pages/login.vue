@@ -64,17 +64,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 definePageMeta({
   layout: 'empty'
 })
 
 const supabase = useSupabaseClient()
+const user = useSupabaseUser()
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
 const errorMsg = ref('')
+
+// Automatically redirect when the user state is populated
+watchEffect(() => {
+  if (user.value) {
+    navigateTo('/dashboard')
+  }
+})
 
 const handleLogin = async () => {
   loading.value = true
@@ -90,11 +98,9 @@ const handleLogin = async () => {
     
     if (error) {
       errorMsg.value = error.message
-    } else {
-      console.log('Login successful, redirecting to dashboard')
-      const router = useRouter()
-      router.push('/dashboard')
     }
+    // Note: Redirection is handled by the watchEffect above
+    // to ensure the user state has propagated to Nuxt Supabase before routing.
   } catch (err: any) {
     console.error('Login Exception:', err)
     errorMsg.value = err.message || 'An unexpected error occurred during login.'
