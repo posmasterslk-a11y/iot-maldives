@@ -83,7 +83,6 @@ import { useDeviceStore } from '../stores/device'
 import { ref, computed, onMounted } from 'vue'
 
 definePageMeta({
-  middleware: 'auth',
   layout: 'admin'
 })
 
