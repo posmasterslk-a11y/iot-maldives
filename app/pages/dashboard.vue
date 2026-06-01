@@ -49,6 +49,19 @@ onMounted(async () => {
     </template>
 
     <template #body>
+      <!-- Error Alert -->
+      <UAlert
+        v-if="deviceStore.error"
+        color="red"
+        variant="soft"
+        icon="i-lucide-alert-triangle"
+        title="Connection Issue"
+        :description="`Failed to sync with the flow meter API. The server might be slow or offline. Details: ${deviceStore.error}`"
+        class="mb-6"
+        :close-button="{ icon: 'i-heroicons-x-mark-20-solid', color: 'gray', variant: 'link', padded: false }"
+        @close="deviceStore.error = null"
+      />
+
       <!-- Stats Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
         <!-- Active Devices -->

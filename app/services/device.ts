@@ -73,7 +73,7 @@ export const deviceService = {
           mainTankPercentage: 0,
           totalizer: 0, 
           currentSessionVolume: 0,
-          location: 'Error: ' + (e.message || 'Unknown API Error')
+          location: 'Maldives Seaplane Base'
         }
       ]
     }

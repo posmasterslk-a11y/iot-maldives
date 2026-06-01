@@ -2,7 +2,7 @@ import axios from 'axios'
 import { generateSignature } from '../utils/crypto'
 
 export const api = axios.create({
-  timeout: 15000,
+  timeout: 30000,
 })
 
 api.interceptors.request.use((config) => {
