@@ -80,19 +80,26 @@ const handleLogin = async () => {
   loading.value = true
   errorMsg.value = ''
   
-  const { error } = await supabase.auth.signInWithPassword({
-    email: email.value,
-    password: password.value,
-  })
-  
-  loading.value = false
-  
-  if (error) {
-    errorMsg.value = error.message
-  } else {
-    // Redirect handled by Nuxt Supabase module automatically or manually push
-    const router = useRouter()
-    router.push('/dashboard')
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value,
+    })
+    
+    console.log('Login Response:', { data, error })
+    
+    if (error) {
+      errorMsg.value = error.message
+    } else {
+      console.log('Login successful, redirecting to dashboard')
+      const router = useRouter()
+      router.push('/dashboard')
+    }
+  } catch (err: any) {
+    console.error('Login Exception:', err)
+    errorMsg.value = err.message || 'An unexpected error occurred during login.'
+  } finally {
+    loading.value = false
   }
 }
 </script>
