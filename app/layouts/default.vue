@@ -1,23 +1,60 @@
-<template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex">
-    <Sidebar />
-    
-    <div class="flex-1 flex flex-col md:ml-64 transition-all duration-300">
-      <Navbar />
-      <main class="flex-1 p-4 sm:p-6 overflow-y-auto">
-        <slot />
-      </main>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { useAuthStore } from '../stores/auth'
+import type { NavigationMenuItem } from '@nuxt/ui'
 
-const authStore = useAuthStore()
+const route = useRoute()
+const open = ref(false)
 
-// If there's an API hit for checking user profile or auth validity, do it here.
-onMounted(() => {
-  authStore.initializeAuth()
-})
+const links = [[{
+  label: 'Dashboard',
+  icon: 'i-lucide-activity',
+  to: '/dashboard',
+  onSelect: () => {
+    open.value = false
+  }
+}, {
+  label: 'Users',
+  icon: 'i-lucide-users',
+  to: '/users',
+  onSelect: () => {
+    open.value = false
+  }
+}]] satisfies NavigationMenuItem[][]
+
 </script>
+
+<template>
+  <UDashboardGroup unit="rem">
+    <UDashboardSidebar
+      id="default"
+      v-model:open="open"
+      collapsible
+      resizable
+      class="bg-elevated/25"
+      :ui="{ footer: 'lg:border-t lg:border-default' }"
+    >
+      <template #header="{ collapsed }">
+        <div class="flex items-center gap-2 px-2 py-3">
+          <UIcon name="i-lucide-droplet" class="text-blue-500 w-8 h-8" />
+          <span v-if="!collapsed" class="font-bold text-lg truncate">IOT Dashboard</span>
+        </div>
+      </template>
+
+      <template #default="{ collapsed }">
+        <UNavigationMenu
+          :collapsed="collapsed"
+          :items="links[0]"
+          orientation="vertical"
+          tooltip
+          popover
+        />
+      </template>
+
+      <template #footer="{ collapsed }">
+        <UserMenu :collapsed="collapsed" />
+      </template>
+    </UDashboardSidebar>
+
+    <slot />
+
+  </UDashboardGroup>
+</template>

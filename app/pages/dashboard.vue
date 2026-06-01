@@ -1,90 +1,7 @@
-<template>
-  <div class="space-y-6">
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      <!-- Active Pumps -->
-      <UCard>
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <UIcon name="i-heroicons-cpu-chip" class="h-6 w-6 text-green-500" />
-          </div>
-          <div class="ml-5 w-0 flex-1">
-            <dl>
-              <dt class="text-sm font-medium text-gray-500 truncate">Active Devices</dt>
-              <dd class="flex items-baseline">
-                <div v-if="isLoading" class="h-8 w-16 bg-gray-200 dark:bg-gray-700 animate-pulse rounded mt-1"></div>
-                <div v-else class="text-2xl font-semibold text-gray-900 dark:text-white">
-                  {{ dashboardStore.stats.activeDevices || 0 }}
-                </div>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </UCard>
-      
-      <!-- Total Fuel Dispensed -->
-      <UCard>
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <UIcon name="i-heroicons-beaker" class="h-6 w-6 text-yellow-500" />
-          </div>
-          <div class="ml-5 w-0 flex-1">
-            <dl>
-              <dt class="text-sm font-medium text-gray-500 truncate">Cumulative Flow (Totalizer)</dt>
-              <dd class="flex items-baseline">
-                <div v-if="isLoading" class="h-8 w-32 bg-gray-200 dark:bg-gray-700 animate-pulse rounded mt-1"></div>
-                <div v-else class="text-2xl font-semibold text-gray-900 dark:text-white">
-                  {{ dashboardStore.stats.totalFuelDispensed || 0 }} L
-                </div>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </UCard>
-      
-      <!-- Last Update -->
-      <UCard>
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <UIcon name="i-heroicons-clock" class="h-6 w-6 text-teal-500" />
-          </div>
-          <div class="ml-5 w-0 flex-1">
-            <dl>
-              <dt class="text-sm font-medium text-gray-500 truncate">Last Update</dt>
-              <dd class="flex items-baseline">
-                <div v-if="isLoading" class="h-7 w-40 bg-gray-200 dark:bg-gray-700 animate-pulse rounded mt-1"></div>
-                <div v-else class="text-lg font-semibold text-gray-900 dark:text-white">
-                  {{ lastUpdateTime || 'N/A' }}
-                </div>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </UCard>
-    </div>
-    
-    <div class="mt-8">
-      <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">
-        Flow Meters Overview
-      </h3>
-      <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-        <UTable :data="recentDevices" :columns="columns" :loading="isLoading">
-          <template #lastReading-cell="{ row }">
-            {{ row.original.lastReading }}
-          </template>
-        </UTable>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useDashboardStore } from '../stores/dashboard'
 import { useDeviceStore } from '../stores/device'
 import { ref, computed, onMounted } from 'vue'
-
-definePageMeta({
-  layout: 'admin'
-})
 
 const dashboardStore = useDashboardStore()
 const deviceStore = useDeviceStore()
@@ -124,3 +41,65 @@ onMounted(async () => {
   }
 })
 </script>
+
+<template>
+  <UDashboardPanel id="dashboard">
+    <template #header>
+      <UDashboardNavbar title="Dashboard" />
+    </template>
+
+    <template #body>
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <!-- Active Devices -->
+        <UDashboardCard
+          title="Active Devices"
+          description="Number of flow meters online"
+          icon="i-heroicons-cpu-chip"
+        >
+          <div v-if="isLoading" class="h-8 w-16 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-2"></div>
+          <div v-else class="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+            {{ dashboardStore.stats.activeDevices || 0 }}
+          </div>
+        </UDashboardCard>
+
+        <!-- Cumulative Flow -->
+        <UDashboardCard
+          title="Cumulative Flow (Totalizer)"
+          description="Total liters dispensed across all devices"
+          icon="i-heroicons-beaker"
+        >
+          <div v-if="isLoading" class="h-8 w-32 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-2"></div>
+          <div v-else class="text-3xl font-bold text-gray-900 dark:text-white mt-2 text-yellow-500">
+            {{ dashboardStore.stats.totalFuelDispensed || 0 }} L
+          </div>
+        </UDashboardCard>
+
+        <!-- Last Update -->
+        <UDashboardCard
+          title="Last Update"
+          description="Latest data sync from Yunyi API"
+          icon="i-heroicons-clock"
+        >
+          <div v-if="isLoading" class="h-8 w-40 bg-gray-200 dark:bg-gray-800 animate-pulse rounded mt-2"></div>
+          <div v-else class="text-xl font-bold text-gray-900 dark:text-white mt-2">
+            {{ lastUpdateTime || 'N/A' }}
+          </div>
+        </UDashboardCard>
+      </div>
+
+      <!-- Devices Table -->
+      <UDashboardCard
+        title="Flow Meters Overview"
+        description="Recent readings from all connected flow meters."
+        icon="i-heroicons-table-cells"
+      >
+        <UTable :data="recentDevices" :columns="columns" :loading="isLoading">
+          <template #lastReading-cell="{ row }">
+            {{ row.original.lastReading }}
+          </template>
+        </UTable>
+      </UDashboardCard>
+    </template>
+  </UDashboardPanel>
+</template>
