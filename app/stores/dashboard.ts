@@ -47,6 +47,7 @@ export const useDashboardStore = defineStore('dashboard', {
     async fetchRealData() {
       try {
         const response = await fetch('/api/stations')
+        if (!response.ok) throw new Error('API failed')
         const json = await response.json()
         
         if (json.code === 200 && json.data?.list) {
@@ -57,16 +58,18 @@ export const useDashboardStore = defineStore('dashboard', {
             let flowValue = parseFloat(cumFlow.data)
             if (cumFlow.unit === 'm³') flowValue *= 1000 // Convert to liters
             
-            // Update the first station (CCN) with real data
             this.stations[0].flowMeter = Math.round(flowValue)
-            // We can also update lastUsed if we want
+            this.stations[0].status = 'Serviceable'
             if (cumFlow.created_at) {
               this.stations[0].lastUsed = 'Just now'
             }
           }
+        } else {
+          this.stations[0].status = 'Offline'
         }
       } catch (err) {
         console.error('Failed to fetch real station data:', err)
+        this.stations[0].status = 'Offline'
       }
     }
   }

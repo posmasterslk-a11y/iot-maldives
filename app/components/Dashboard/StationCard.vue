@@ -21,6 +21,7 @@ const statusColors = computed(() => {
     case 'Unserviceable': return 'text-red-400 border-red-500/30 bg-red-500/10'
     case 'Tank Cleaning': return 'text-orange-400 border-orange-500/30 bg-orange-500/10'
     case 'Maintenance': return 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10'
+    case 'Offline': return 'text-gray-400 border-gray-500/50 bg-gray-500/20'
     default: return 'text-gray-400 border-gray-500/30 bg-gray-500/10'
   }
 })
@@ -31,6 +32,7 @@ const statusIcon = computed(() => {
     case 'Unserviceable': return 'i-lucide-alert-circle'
     case 'Tank Cleaning': return 'i-lucide-droplets'
     case 'Maintenance': return 'i-lucide-wrench'
+    case 'Offline': return 'i-lucide-wifi-off'
     default: return 'i-lucide-info'
   }
 })
@@ -41,6 +43,7 @@ const borderColors = computed(() => {
     case 'Unserviceable': return 'border-t-red-500'
     case 'Tank Cleaning': return 'border-t-orange-500'
     case 'Maintenance': return 'border-t-yellow-500'
+    case 'Offline': return 'border-t-gray-500 opacity-70 grayscale'
     default: return 'border-t-[#1e2a3b]'
   }
 })
@@ -59,6 +62,7 @@ const tankColor = computed(() => {
     case 'Unserviceable': return 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
     case 'Tank Cleaning': return 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]'
     case 'Maintenance': return 'bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.5)]'
+    case 'Offline': return 'bg-gray-600 shadow-none'
     default: return 'bg-[#00d2ff]'
   }
 })
