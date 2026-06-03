@@ -69,7 +69,7 @@ const tankColor = computed(() => {
 </script>
 
 <template>
-  <a :href="`/stations/${station.code}`" class="bg-[#0b162c] rounded-xl p-5 border border-[#1e2a3b] border-t-2 shadow-lg flex flex-col gap-4 h-full relative overflow-hidden group transition-all hover:shadow-xl" :class="borderColors">
+  <NuxtLink :to="`/stations/${station.code}`" class="bg-[#0b162c] rounded-xl p-5 border border-[#1e2a3b] border-t-2 shadow-lg flex flex-col gap-4 h-full relative overflow-hidden group transition-all hover:shadow-xl" :class="borderColors">
     
     <!-- Header -->
     <div class="flex justify-between items-start">
@@ -138,5 +138,5 @@ const tankColor = computed(() => {
       </div>
     </div>
 
-  </a>
+  </NuxtLink>
 </template>
