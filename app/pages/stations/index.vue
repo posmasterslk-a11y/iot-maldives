@@ -79,8 +79,8 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { useDashboardStore } from '../stores/dashboard'
-import StationCard from '../components/Dashboard/StationCard.vue'
+import { useDashboardStore } from '../../stores/dashboard'
+import StationCard from '../../components/Dashboard/StationCard.vue'
 
 const store = useDashboardStore()
 
