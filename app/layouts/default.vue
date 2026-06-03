@@ -4,8 +4,10 @@ import { ref } from 'vue'
 
 const open = ref(false)
 
+const route = useRoute()
+
 const navigation = [
-  { label: 'Home', icon: 'i-lucide-home', to: '/dashboard', active: true },
+  { label: 'Home', icon: 'i-lucide-home', to: '/dashboard' },
   { label: 'Fuel Stations', icon: 'i-lucide-droplets', to: '/stations' },
   { label: 'Fuel Usage Analytics', icon: 'i-lucide-bar-chart-2', to: '/analytics' },
   { label: 'Flow Meter Monitoring', icon: 'i-lucide-gauge', to: '/monitoring' },
@@ -61,10 +63,10 @@ const administration = [
             :key="item.label"
             :to="item.to"
             class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group"
-            :class="item.active ? 'bg-[#00d2ff]/10 text-[#00d2ff] border border-[#00d2ff]/20' : 'text-[#7e9bbd] hover:bg-[#162032] hover:text-white'"
+            :class="route.path === item.to ? 'bg-[#00d2ff]/10 text-[#00d2ff] border border-[#00d2ff]/20' : 'text-[#7e9bbd] hover:bg-[#162032] hover:text-white'"
           >
             <div class="flex items-center gap-3">
-              <UIcon :name="item.icon" class="w-4 h-4" :class="item.active ? 'text-[#00d2ff]' : 'text-[#597393] group-hover:text-white'" />
+              <UIcon :name="item.icon" class="w-4 h-4" :class="route.path === item.to ? 'text-[#00d2ff]' : 'text-[#597393] group-hover:text-white'" />
               {{ item.label }}
             </div>
             <div v-if="item.badge" class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
