@@ -50,7 +50,15 @@
 
     <!-- Scrollable Grid Area -->
     <div class="flex-1 overflow-y-auto pr-2 -mr-2 pb-8 custom-scrollbar">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+      <!-- Skeleton Loader -->
+      <div v-if="store.isLoadingRealData" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+        <div v-for="i in 10" :key="i" class="h-[300px]">
+          <USkeleton class="h-full w-full rounded-xl bg-[#0b162c] border-[#1e2a3b]" :ui="{ background: 'bg-[#162032]' }" />
+        </div>
+      </div>
+
+      <!-- Station Grid -->
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
         <StationCard 
           v-for="station in filteredStations" 
           :key="station.id" 
@@ -60,7 +68,7 @@
       </div>
       
       <!-- Empty State -->
-      <div v-if="filteredStations.length === 0" class="flex flex-col items-center justify-center h-64 text-slate-500">
+      <div v-if="!store.isLoadingRealData && filteredStations.length === 0" class="flex flex-col items-center justify-center h-64 text-slate-500">
         <div class="i-lucide-search-x w-12 h-12 mb-4 opacity-50"></div>
         <p>No stations found matching your criteria</p>
         <button @click="resetFilters" class="mt-4 text-[#00d2ff] hover:underline text-sm">Clear filters</button>

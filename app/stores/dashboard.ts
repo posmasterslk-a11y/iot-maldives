@@ -43,13 +43,15 @@ export const useDashboardStore = defineStore('dashboard', {
       activeAlarms: 10,
       underMaintenance: 2,
       scheduledCleaning: 1,
-    }
+    },
+    isLoadingRealData: true
   }),
   actions: {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen
     },
     async fetchRealData() {
+      this.isLoadingRealData = true
       try {
         const response = await fetch('/api/stations')
         if (!response.ok) throw new Error('API failed')
@@ -88,6 +90,8 @@ export const useDashboardStore = defineStore('dashboard', {
         console.error('Failed to fetch real station data:', err)
         const ccnStation = this.stations.find(s => s.code === 'CCN')
         if (ccnStation) ccnStation.status = 'Offline'
+      } finally {
+        this.isLoadingRealData = false
       }
     }
   }
