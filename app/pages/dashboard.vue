@@ -2,9 +2,13 @@
 import { useDashboardStore } from '../stores/dashboard'
 import SummaryCard from '../components/Dashboard/SummaryCard.vue'
 import StationCard from '../components/Dashboard/StationCard.vue'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const store = useDashboardStore()
+
+onMounted(() => {
+  store.fetchRealData()
+})
 
 const formatNumber = (num: number) => {
   return new Intl.NumberFormat('en-US').format(num)

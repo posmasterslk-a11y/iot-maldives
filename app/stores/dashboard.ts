@@ -43,6 +43,31 @@ export const useDashboardStore = defineStore('dashboard', {
   actions: {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen
+    },
+    async fetchRealData() {
+      try {
+        const response = await fetch('/api/stations')
+        const json = await response.json()
+        
+        if (json.code === 200 && json.data?.list) {
+          const list = json.data.list
+          const cumFlow = list.find((item: any) => item.cmd_desc === 'Cum. Flow')
+          
+          if (cumFlow) {
+            let flowValue = parseFloat(cumFlow.data)
+            if (cumFlow.unit === 'm³') flowValue *= 1000 // Convert to liters
+            
+            // Update the first station (CCN) with real data
+            this.stations[0].flowMeter = Math.round(flowValue)
+            // We can also update lastUsed if we want
+            if (cumFlow.created_at) {
+              this.stations[0].lastUsed = 'Just now'
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch real station data:', err)
+      }
     }
   }
 })

@@ -8,8 +8,8 @@ const generateSignature = (appId: string, timestamp: string, secret: string) => 
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  const appId = config.public.appId || 'WHIBp2TTO8H5ZsZY';
-  const appSecret = config.public.appSecret || '3un1ci5w5isDOai8izAlbMGmS4nxqzAY';
+  const appId = config.public.appId || 'fOesUorUnKORXx2S';
+  const appSecret = config.public.appSecret || 'WKrE9DRD0WYZ2UHZvYVSndw34IV6z5Vc';
   const timestamp = Math.floor(Date.now() / 1000).toString();
 
   const api = axios.create({
@@ -22,12 +22,12 @@ export default defineEventHandler(async (event) => {
   });
 
   try {
-    const res = await api.get('/data/getlist', {
+    const res = await api.get('/data/getList', {
       params: {
         deviceType: 'znwg',
         code: '61052604062000',
         page: 1,
-        pageSize: 5
+        pageSize: 10
       }
     });
     
