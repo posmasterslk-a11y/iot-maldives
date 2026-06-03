@@ -55,6 +55,9 @@ export const useDashboardStore = defineStore('dashboard', {
         if (!response.ok) throw new Error('API failed')
         const json = await response.json()
         
+        const ccnStation = this.stations.find(s => s.code === 'CCN')
+        if (!ccnStation) return
+
         if (json.code === 200 && json.data?.list) {
           const list = json.data.list
           const cumFlow = list.find((item: any) => item.cmd_desc === 'Cum. Flow')
@@ -63,18 +66,19 @@ export const useDashboardStore = defineStore('dashboard', {
             let flowValue = parseFloat(cumFlow.data)
             if (cumFlow.unit === 'm³') flowValue *= 1000 // Convert to liters
             
-            this.stations[0].flowMeter = Math.round(flowValue)
-            this.stations[0].status = 'Serviceable'
+            ccnStation.flowMeter = Math.round(flowValue)
+            ccnStation.status = 'Serviceable'
             if (cumFlow.created_at) {
-              this.stations[0].lastUsed = 'Just now'
+              ccnStation.lastUsed = 'Just now'
             }
           }
         } else {
-          this.stations[0].status = 'Offline'
+          ccnStation.status = 'Offline'
         }
       } catch (err) {
         console.error('Failed to fetch real station data:', err)
-        this.stations[0].status = 'Offline'
+        const ccnStation = this.stations.find(s => s.code === 'CCN')
+        if (ccnStation) ccnStation.status = 'Offline'
       }
     }
   }
