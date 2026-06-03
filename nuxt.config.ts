@@ -8,6 +8,14 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/supabase'
   ],
+  vite: {
+    optimizeDeps: {
+      include: [
+        'chart.js',
+        'vue-chartjs'
+      ]
+    }
+  },
   supabase: {
     redirectOptions: {
       login: '/login',

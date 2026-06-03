@@ -61,6 +61,7 @@ export const useDashboardStore = defineStore('dashboard', {
         if (json.code === 200 && json.data?.list) {
           const list = json.data.list
           const cumFlow = list.find((item: any) => item.cmd_desc === 'Cum. Flow')
+          const liquidLevel = list.find((item: any) => item.cmd_desc === 'Liquid Level')
           
           if (cumFlow) {
             let flowValue = parseFloat(cumFlow.data)
@@ -71,6 +72,14 @@ export const useDashboardStore = defineStore('dashboard', {
             if (cumFlow.created_at) {
               ccnStation.lastUsed = 'Just now'
             }
+          }
+
+          if (liquidLevel) {
+            let level = parseFloat(liquidLevel.data) // e.g., 1.624 m
+            // Assuming tank max height is ~2 meters for 15,000L capacity
+            let percentage = level / 2.0 
+            if (percentage > 1) percentage = 1
+            ccnStation.currentVolume = Math.round(percentage * ccnStation.maxVolume)
           }
         } else {
           ccnStation.status = 'Offline'

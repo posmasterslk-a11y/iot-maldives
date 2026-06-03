@@ -77,7 +77,6 @@ import StationCard from '../components/Dashboard/StationCard.vue'
 const store = useDashboardStore()
 
 onMounted(() => {
-  // Always fetch real data for CCN
   store.fetchRealData()
 })
 
