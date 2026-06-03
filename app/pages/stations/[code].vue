@@ -148,7 +148,9 @@
           <p class="text-slate-500 text-xs">30-day daily consumption (litres)</p>
         </div>
         <div class="h-64">
-          <Line :data="usageTrendData" :options="lineOptions" />
+          <ClientOnly fallback-tag="div" fallback="Loading chart...">
+            <Line :data="usageTrendData" :options="lineOptions" />
+          </ClientOnly>
         </div>
       </div>
 
@@ -159,7 +161,9 @@
           <p class="text-slate-500 text-xs">Last 14 days (L/day)</p>
         </div>
         <div class="h-52">
-          <Bar :data="dailyBarData" :options="barOptions" />
+          <ClientOnly fallback-tag="div" fallback="Loading chart...">
+            <Bar :data="dailyBarData" :options="barOptions" />
+          </ClientOnly>
         </div>
       </div>
 
@@ -170,7 +174,9 @@
           <p class="text-slate-500 text-xs">Per week summary (L)</p>
         </div>
         <div class="h-52">
-          <Bar :data="weeklyBarData" :options="barOptions" />
+          <ClientOnly fallback-tag="div" fallback="Loading chart...">
+            <Bar :data="weeklyBarData" :options="barOptions" />
+          </ClientOnly>
         </div>
       </div>
 
@@ -181,7 +187,9 @@
           <p class="text-slate-500 text-xs">2025 YTD (L/month)</p>
         </div>
         <div class="h-52">
-          <Bar :data="monthlyBarData" :options="barOptions" />
+          <ClientOnly fallback-tag="div" fallback="Loading chart...">
+            <Bar :data="monthlyBarData" :options="barOptions" />
+          </ClientOnly>
         </div>
       </div>
 
@@ -192,7 +200,9 @@
           <p class="text-slate-500 text-xs">30-day tank level (%)</p>
         </div>
         <div class="h-52">
-          <Line :data="tankLevelData" :options="levelOptions" />
+          <ClientOnly fallback-tag="div" fallback="Loading chart...">
+            <Line :data="tankLevelData" :options="levelOptions" />
+          </ClientOnly>
         </div>
       </div>
 
