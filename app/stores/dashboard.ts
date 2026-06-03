@@ -33,19 +33,41 @@ export const useDashboardStore = defineStore('dashboard', {
       { id: '14', code: 'AKM', name: 'Atoll Fuel Station', status: 'Offline', currentVolume: 0, maxVolume: 9500, todaysUsage: 0, flowMeter: 0, lastUsed: '-', lastFilled: '-' },
       { id: '15', code: 'EMR', name: 'Island Fuel Station', status: 'Offline', currentVolume: 0, maxVolume: 9500, todaysUsage: 0, flowMeter: 0, lastUsed: '-', lastFilled: '-' }
     ] as Station[],
-    stats: {
-      totalAvailableFuel: 204447,
-      totalConsumptionToday: 14240,
-      fuelReceivedToday: 34250,
-      serviceable: 24,
-      totalStations: 30,
-      unserviceable: 3,
-      activeAlarms: 10,
-      underMaintenance: 2,
-      scheduledCleaning: 1,
-    },
     isLoadingRealData: true
   }),
+  getters: {
+    stats(state) {
+      let totalAvailableFuel = 0
+      let totalConsumptionToday = 0
+      let serviceable = 0
+      let unserviceable = 0
+      let underMaintenance = 0
+      let scheduledCleaning = 0
+
+      state.stations.forEach(s => {
+        totalAvailableFuel += s.currentVolume
+        totalConsumptionToday += s.todaysUsage
+        if (s.status === 'Serviceable') serviceable++
+        else if (s.status === 'Unserviceable') unserviceable++
+        else if (s.status === 'Maintenance') underMaintenance++
+        else if (s.status === 'Tank Cleaning') scheduledCleaning++
+      })
+
+      // We have 15 mock items in array, but UI expects 30 stations total.
+      // So we assume the other 15 are offline with 0 data.
+      return {
+        totalAvailableFuel,
+        totalConsumptionToday,
+        fuelReceivedToday: 0, 
+        serviceable,
+        totalStations: 30,
+        unserviceable,
+        activeAlarms: unserviceable > 0 ? unserviceable * 3 : 0,
+        underMaintenance,
+        scheduledCleaning,
+      }
+    }
+  },
   actions: {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen
